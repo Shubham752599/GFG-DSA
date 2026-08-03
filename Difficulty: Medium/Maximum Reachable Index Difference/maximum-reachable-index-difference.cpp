@@ -1,28 +1,27 @@
 class Solution {
   public:
     int maxIndexDifference(string &s) {
+        // code here
         int n = s.size();
 
-        // best[i] stores the farthest reachable index for character ('a' + i)
         vector<int> best(26, -1);
 
-        // Remains -1 if no valid starting index ('a') exists
         int ans = -1;
 
-        // Process from right to left to consider only jumps to the right
-        for (int i = n - 1; i >= 0; i--) {
-            int farthest = i;
-
-            // Jump to the next alphabet character if it is reachable
-            if (s[i] != 'z' && best[s[i] - 'a' + 1] != -1) {
-                farthest = best[s[i] - 'a' + 1];
+        for (int i = n - 1; i >= 0; i--) 
+        {
+            int temp = i;
+            int curr = s[i] - 'a';
+            if (curr < 25 && best[curr + 1] != -1)
+            {
+                temp = best[curr + 1];
             }
 
-            best[s[i] - 'a'] = max(best[s[i] - 'a'], farthest);
+            best[curr] = max(best[curr], temp);
 
-            // Only 'a' can be a starting point
-            if (s[i] == 'a') {
-                ans = max(ans, farthest - i);
+            if (curr == 0)
+            {
+                ans = max(ans, temp - i);
             }
         }
 
